@@ -104,8 +104,8 @@ Sistema de Vuelos - Registro de usuarios
 </style>
 
 <img src="../static/img/Group 7.svg" alt="" class="logo">
-<h1 class="text-1">Unete a este viaje</h1>
-<div class="text-2">Registrate</div>
+<h1 class="text-1">Únete a este viaje</h1>
+<div class="text-2">Regístrate</div>
 <form action="" method="post">
     {{ frm.hidden_tag() }}
 
@@ -165,6 +165,13 @@ Sistema de Vuelos - Registro de usuarios
             </div>
         {% endfor %}
 
+    </p>
+    <p class="text-2">
+        {{ frm.check.label }} {{ frm.check }} {% for error in frm.check.errors %}
+            <div>
+            {{ error }}
+            </div>
+        {% endfor %}
     </p>
 
         {{ frm.registrar }}
