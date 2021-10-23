@@ -19,6 +19,10 @@ Sistema de vuelos - Login
         flex-direction: column;
     }
 
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
 
     .span3 {
         color: #fff;
@@ -28,12 +32,8 @@ Sistema de vuelos - Login
         color: aqua;
     }
 
-    label{
-    display: block;
-    margin-bottom: 10px;
-    }
-
     #username {
+        color: #fff;
         width: 258px;
         height: 44px;
         left: 551px;
@@ -46,6 +46,7 @@ Sistema de vuelos - Login
     }
 
     #password {
+        color: #fff;
         width: 258px;
         height: 44px;
         left: 551px;
@@ -68,37 +69,36 @@ Sistema de vuelos - Login
     }
 </style>
 
-<img src="../static/img/Group 7.svg" alt="" class="logo">
+<img class="logo" src="../static/img/group-2@2x.svg">
 <h1 class="text-1">Bienvenido de vuelta</h1>
 <div class="text-2">Puedes iniciar sesion</div>
 
-<form action="" method="post">
-    {{ frm.hidden_tag() }}
-    <p class="username">
-        {{ frm.username.label }}
-        {{ frm.username }}
-        {% for error in frm.username.errors %}
 
-    <div>
-        {{ error }}
-    </div>
-    {% endfor %}
-    </p>
+<div class="centrado">
+    <form action="" method="post">
+        {{ frm.hidden_tag() }}
 
-    <p>
-        {{ frm.password.label }}
-        {{ frm.password }}
-        {% for error in frm.password.errors %}
-
-    <div>
-        {{ error }}
-    </div>
-    {% endfor %}
-
-    </p>
-    {{ frm.enviar }}
-
-</form>
-<a class="text-3" href="{{ url_for('registrar') }}"><span class="span3">¿Aún no tienes una cuenta? </span><span
-        class="span4">Regístrate</span></a>
+        <p>
+            {{ frm.username.label }}
+            {{ frm.username }}
+            {% for error in frm.username.errors %}
+        <div>
+            {{ error }}
+        </div>
+        {% endfor %}
+        </p>
+        <p>
+            {{ frm.password.label }}
+            {{ frm.password }}
+            {% for error in frm.password.errors %}
+        <div>
+            {{ error }}
+        </div>
+        {% endfor %}
+        </p>
+        {{ frm.enviar }}
+    </form>
+</div>
+<a class="text-3" href="{{ url_for('new_user') }}"><span class="span3">¿No tiene un usuario? </span><span
+    class="span4">Crear cuenta</span></a>
 {% endblock %}

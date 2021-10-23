@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %} 
+{% block title %}
 Sistema de Vuelos - Registro de usuarios
 {% endblock %}
 
-{% block content %} 
+{% block content %}
 <style>
     * {
         background-color: #090b2d;
@@ -19,19 +19,21 @@ Sistema de Vuelos - Registro de usuarios
         flex-direction: column;
     }
 
-    .span3{
+    .span3 {
         color: #fff;
     }
-    .span4{
+
+    .span4 {
         color: aqua;
     }
 
-    label{
-    display: block;
-    margin-bottom: 10px;
+    label {
+        display: block;
+        margin-bottom: 10px;
     }
 
     #nombre {
+        color: #fff;
         width: 258px;
         height: 44px;
         left: 551px;
@@ -44,6 +46,7 @@ Sistema de Vuelos - Registro de usuarios
     }
 
     #username {
+        color: #fff;
         width: 258px;
         height: 44px;
         left: 551px;
@@ -56,6 +59,7 @@ Sistema de Vuelos - Registro de usuarios
     }
 
     #password {
+        color: #fff;
         width: 258px;
         height: 44px;
         left: 551px;
@@ -68,18 +72,7 @@ Sistema de Vuelos - Registro de usuarios
     }
 
     #correo {
-        width: 258px;
-        height: 44px;
-        left: 551px;
-        top: 242px;
-
-        background: rgba(249, 249, 249, 0.15);
-        border: 2px solid #FFFFFF;
-        box-sizing: border-box;
-        border-radius: 20px;
-    }
-
-    #rol {
+        color: #fff;
         width: 258px;
         height: 44px;
         left: 551px;
@@ -95,15 +88,41 @@ Sistema de Vuelos - Registro de usuarios
         width: 258px;
         height: 44px;
         left: 551px;
-        top: 417px;
+        top: 457px;
 
         background: #0DFFF0;
         border-radius: 20px;
     }
 
+    #perfil {
+        appearance: none;
+        outline: 0;
+        box-shadow: none;
+        border: 2px solid #FFFFFF;
+        background: rgba(249, 249, 249, 0.15);
+        background-image: none;
+        color: #fff;
+        border-radius: 20px;
+        text-align: center;
+    }
+
+    #perfil::-ms-expand {
+        display: none;
+    }
+
+    #perfil {
+        position: relative;
+        display: flex;
+        width: 258px;
+        height: 44px;
+        overflow: hidden;
+        flex: 1;
+        padding: 0 .5em;
+        cursor: pointer;
+    }
 </style>
 
-<img src="../static/img/Group 7.svg" alt="" class="logo">
+<img src="../static/img/group-2@2x.svg" alt="" class="logo">
 <h1 class="text-1">Unete a este viaje</h1>
 <div class="text-2">Registrate</div>
 <form action="" method="post">
@@ -114,10 +133,10 @@ Sistema de Vuelos - Registro de usuarios
         {{ frm.nombre }}
         {% for error in frm.nombre.errors %}
 
-            <div>
-             {{ error }}
-            </div>
-        {% endfor %}
+    <div>
+        {{ error }}
+    </div>
+    {% endfor %}
 
     </p>
     <p>
@@ -125,10 +144,10 @@ Sistema de Vuelos - Registro de usuarios
         {{ frm.username }}
         {% for error in frm.username.errors %}
 
-            <div>
-                {{ error }}
-            </div>
-        {% endfor %}
+    <div>
+        {{ error }}
+    </div>
+    {% endfor %}
     </p>
 
     <p>
@@ -136,10 +155,10 @@ Sistema de Vuelos - Registro de usuarios
         {{ frm.password }}
         {% for error in frm.password.errors %}
 
-            <div>
-             {{ error }}
-            </div>
-        {% endfor %}
+    <div>
+        {{ error }}
+    </div>
+    {% endfor %}
 
     </p>
 
@@ -148,26 +167,27 @@ Sistema de Vuelos - Registro de usuarios
         {{ frm.correo }}
         {% for error in frm.correo.errors %}
 
-            <div>
-                {{ error }}
-            </div>
-        {% endfor %}
+    <div>
+        {{ error }}
+    </div>
+    {% endfor %}
 
     </p>
 
     <p>
-        {{ frm.rol.label }}
-        {{ frm.rol }}
-        {% for error in frm.rol.errors %}
+        {{ frm.perfil.label }}
+        {{ frm.perfil }}
+        {% for error in frm.perfil.errors %}
 
-            <div>
-                {{ error }}
-            </div>
-        {% endfor %}
+    <div>
+        {{ error }}
+    </div>
+    {% endfor %}
 
     </p>
 
-        {{ frm.registrar }}
+    {{ frm.registrar }}
 </form>
-<a class="text-3" href="{{ url_for('login') }}"><span class="span3">¿Ya tiene una cuenta? </span><span class="span4">Inicia sesion</span></a>
+<a class="text-3" href="{{ url_for('login') }}"><span class="span3">¿Ya tiene una cuenta? </span><span
+        class="span4">Inicia sesion</span></a>
 {% endblock %}
