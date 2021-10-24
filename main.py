@@ -1,7 +1,6 @@
-from flask import Flask, blueprints, render_template, session, flash, request, Blueprint
+from flask import Flask, render_template, session, flash, request
 import sqlite3
-import os, os.path
-from werkzeug.datastructures import auth_property
+import os
 
 from werkzeug.utils import escape, redirect
 from forms.formularios import Comentarios, Login, NewRegistro, Registro, Vuelos, User
@@ -205,7 +204,7 @@ def view():
     cur = con.cursor()  
     cur.execute("select * from usuario")  
     rows = cur.fetchall()  
-    return render_template("view.html",rows = rows)   
+    return render_template("view.html",rows = rows)  
 
 @app.route("/ver-vuelos", methods=["GET"])
 def view_vuelos():
@@ -350,8 +349,6 @@ def vuelos_reserva():
     else:
         return redirect("/")
 
-
-
 #API Rest de registro de Usuarios
 @app.route("/registrarse", methods=["GET", "POST"]) #Ruta
 def registrar(): #Endpoint
@@ -427,6 +424,15 @@ def comentario():
             con.commit()
             flash("Enviado con éxito")
     return render_template("comentarios.html", frm=frm)
+
+@app.route("/ver-comentarios")
+def ver_com():
+    con = sqlite3.connect("vuelos.db")  
+    con.row_factory = sqlite3.Row  
+    cur = con.cursor()  
+    cur.execute("select * from comentarios")  
+    rows = cur.fetchall()  
+    return render_template("ver-comentarios.html",rows = rows) 
     
 @app.route("/logout")
 def logout():

@@ -161,6 +161,12 @@ Consultar vuelos
     width: 151px;
   }
 
+  .crear-comentario {
+    left: 40px;
+    position: absolute;
+    top: 60px;
+  }
+
   .cerrar-sesion {
     color: #fff;
     text-align: center;
@@ -179,8 +185,9 @@ Consultar vuelos
 </style>
 <img class="logo" src="../static/img/group-2@2x.svg">
 <div class="info">
-Bienvenido, {% if session.usuario %} {{ session.usuario }} {% endif %}
+  Bienvenido, {% if session.usuario %} {{ session.usuario }} {% endif %}
 </div>
+<a href="/comentarios" class="crear-comentario">Crear comentarios</a>
 
 <div>
   <a class="cerrar-sesion" href="/logout">Logout</a>

@@ -1,7 +1,3 @@
-{% block title %}
-Comentarios
-{% endblock %}
-
 {% block content %}
 
 <style>
@@ -52,6 +48,22 @@ Comentarios
         border-radius: 20px;
     }
 
+    #comentario {
+        width: 200px;
+        height: 90px;
+        top: 30px;
+        position: relative;
+    }
+
+    .comentario {
+        position: absolute;
+        top: 35px;
+    }
+
+    .volver {
+        color: #fff;
+    }
+
     #enviar {
         background-color: rgba(255, 193, 7, 1);
         color: #fff;
@@ -61,10 +73,12 @@ Comentarios
         font-weight: 100;
         font-size: 15px;
         border: none;
-        left: 30%;
+        top: 225px;
+        left: 15%;
         position: absolute;
     }
 </style>
+<a href="/usuario/dashboard" class="volver">Volver</a>
 <div class="contenedor">
     <div class="contacto">
         <form class="formulario" action="" method="post">
@@ -94,11 +108,13 @@ Comentarios
                 {% endfor %}
                 </p>
 
-                <p>
-                    {{ frm.comentario.label }}
-                    {{ frm.comentario }}
-                    {% for error in frm.comentario.errors %}
+                <div class="comentario">
+                    <p>
+                        {{ frm.comentario.label }}
+                        {{ frm.comentario }}
+                        {% for error in frm.comentario.errors %}
 
+                </div>
                 <div>
                     {{ error }}
                 </div>

@@ -72,7 +72,7 @@ Listado - vuelos
 
     .volver {
         position: absolute;
-        top: 780px;
+        top: 750px;
         color: white;
     }
 
@@ -82,13 +82,21 @@ Listado - vuelos
         position: absolute;
         top: 15px;
     }
+
+    .ver-comentarios {
+        top: 750px;
+        position: absolute;
+        left: 580px;
+        color: #fff;
+    }
 </style>
 <img class="logo" src="../static/img/group-2@2x.svg">
 <div class="info">
     Bienvenido, {% if session.usuario %} {{ session.usuario }} {% endif %}
     <div>Nombre del Usuario: {% if session.nombre %} {{ session.nombre }} {% endif %}</div>
     <div>ID del usuario: {% if session.iden %} {{ session.iden }} {% endif %}</div>
-    <div>Rol: {% if session.perfil == 1 %} Piloto {% elif session.perfil == 3 %} Administrador {% elif session.perfil == 2 %} Usuario {% endif %}</div>
+    <div>Rol: {% if session.perfil == 1 %} Piloto {% elif session.perfil == 3 %} Administrador {% elif session.perfil ==
+        2 %} Usuario {% endif %}</div>
 </div>
 
 <div>
@@ -122,6 +130,7 @@ Listado - vuelos
 </table>
 <br><br>
 <a class="volver" href="/administrador/dashboard">Volver</a>
+<a href="/ver-comentarios" class="ver-comentarios">Ver comentarios</a>
 
 </div>
 {% endblock %}

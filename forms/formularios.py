@@ -1,6 +1,6 @@
 from flask.app import Flask
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, BooleanField, TextAreaField
 from wtforms.validators import DataRequired
 
 class Login(FlaskForm):
@@ -54,7 +54,7 @@ class User(FlaskForm):
 class Comentarios(FlaskForm):
     id_usuario = StringField("ID Usuario")
     cod_vuelo = StringField("Codigo vuelo")
-    comentario = StringField("Comentario")
+    comentario = TextAreaField("Comentario")
     enviar = SubmitField("Enviar") 
     rol = SelectField("Rol", coerce=int, choices=[("0","-- Elija opción -- "),("1","Piloto"),("2","Usuario")], validators=[DataRequired(message="Debe escoger una opción")])
     check = BooleanField('Acepto términos y condiciones', validators=[DataRequired()])
