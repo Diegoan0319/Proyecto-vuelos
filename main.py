@@ -50,6 +50,37 @@ def login():
 
     return render_template("login.html", frm = frm)
 
+#API Rest de registro de Usuarios
+@app.route("/registrarse", methods=["GET", "POST"]) #Ruta
+def registrar(): #Endpoint
+    if "usuario" in session and session["perfil"] == 3:
+        frm = Registro()
+        # Valida los datos del formulario
+        if frm.validate_on_submit():
+            #Captura los datos del formulario
+            username = frm.username.data
+            nombre = frm.nombre.data
+            correo = frm.correo.data
+            password = frm.password.data
+            perfil = frm.perfil.data
+            # Cifra la contraseña
+            enc = hashlib.sha256(password.encode())
+            pass_enc = enc.hexdigest()
+
+            #Conectar a la BD
+            with sqlite3.connect("vuelos.db") as con:
+                # Crea cursos para manipular la BD
+                cursor = con.cursor()
+                #Prepara la sentencia SQL a ejecutar
+                cursor.execute("INSERT INTO usuario (nombre, username, correo, password, perfil) VALUES (?,?,?,?,?)", [nombre, username, correo, pass_enc, perfil])
+                #Ejecuta la sentencia SQL
+                con.commit()
+                return "Guardado con éxito"
+
+        return render_template("registro.html", frm= frm) #Respuesta
+    else:
+        return "Acesso no permitido"
+        
 @app.route("/administrador/dashboard")
 def admin_dashboard():
     if ("usuario" in session and session["perfil"]==3):
@@ -133,7 +164,7 @@ def vuelos_update():
         avion = frm.avion.data
         piloto = frm.piloto.data
         capacidad = frm.capacidad.data
-        estado = frm.capacidad.data
+        estado = frm.estado.data
         origen = frm.origen.data
         destino = frm.destino.data
         id_piloto_fk = frm.id_piloto_fk.data
@@ -349,37 +380,6 @@ def vuelos_reserva():
     else:
         return redirect("/")
 
-#API Rest de registro de Usuarios
-@app.route("/registrarse", methods=["GET", "POST"]) #Ruta
-def registrar(): #Endpoint
-    if "usuario" in session and session["perfil"] == 3:
-        frm = Registro()
-        # Valida los datos del formulario
-        if frm.validate_on_submit():
-            #Captura los datos del formulario
-            username = frm.username.data
-            nombre = frm.nombre.data
-            correo = frm.correo.data
-            password = frm.password.data
-            perfil = frm.perfil.data
-            # Cifra la contraseña
-            enc = hashlib.sha256(password.encode())
-            pass_enc = enc.hexdigest()
-
-            #Conectar a la BD
-            with sqlite3.connect("vuelos.db") as con:
-                # Crea cursos para manipular la BD
-                cursor = con.cursor()
-                #Prepara la sentencia SQL a ejecutar
-                cursor.execute("INSERT INTO usuario (nombre, username, correo, password, perfil) VALUES (?,?,?,?,?)", [nombre, username, correo, pass_enc, perfil])
-                #Ejecuta la sentencia SQL
-                con.commit()
-                return "Guardado con éxito"
-
-        return render_template("registro.html", frm= frm) #Respuesta
-    else:
-        return "Acesso no permitido"
-
 @app.route("/usuario-nuevo", methods=["GET", "POST"])
 def new_user():
         frm = NewRegistro()
@@ -425,14 +425,16 @@ def comentario():
             flash("Enviado con éxito")
     return render_template("comentarios.html", frm=frm)
 
-@app.route("/ver-comentarios")
+@app.route("/ver-comentarios", methods=["GET"])
 def ver_com():
-    con = sqlite3.connect("vuelos.db")  
-    con.row_factory = sqlite3.Row  
-    cur = con.cursor()  
-    cur.execute("select * from comentarios")  
-    rows = cur.fetchall()  
-    return render_template("ver-comentarios.html",rows = rows) 
+    if "usuario" in session and session["perfil"]== 1:
+        iden = session["iden"]
+        with sqlite3.connect("vuelos.db") as con: 
+            con.row_factory = sqlite3.Row  
+            cur = con.cursor()  
+            cur.execute("SELECT c.cod_vuelo, c.id_usuario, c.comentario FROM comentarios c INNER JOIN vuelos v WHERE c.cod_vuelo = v.codigo AND v.id_piloto_fk = ?",[iden]) 
+            rows = cur.fetchall()  
+            return render_template("ver-comentarios.html",rows = rows) 
     
 @app.route("/logout")
 def logout():

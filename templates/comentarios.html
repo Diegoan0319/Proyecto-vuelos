@@ -64,6 +64,12 @@
         color: #fff;
     }
 
+    .flash {
+        top: 180px;
+        position: absolute;
+        left: 60px;
+    }
+
     #enviar {
         background-color: rgba(255, 193, 7, 1);
         color: #fff;
@@ -84,45 +90,41 @@
         <form class="formulario" action="" method="post">
             <legend>CALIFICA LLENANDO TODOS LOS CAMPOS</legend>
             {{ frm.hidden_tag() }}
-
             <div class="campo">
                 <p>
                     {{ frm.id_usuario.label }}
                     {{ frm.id_usuario }}
                     {% for error in frm.id_usuario.errors %}
-
                 <div>
                     {{ error }}
                 </div>
                 {% endfor %}
                 </p>
-
                 <p>
                     {{ frm.cod_vuelo.label }}
                     {{ frm.cod_vuelo }}
                     {% for error in frm.cod_vuelo.errors %}
-
-                <div>
-                    {{ error }}
-                </div>
-                {% endfor %}
-                </p>
-
-                <div class="comentario">
-                    <p>
-                        {{ frm.comentario.label }}
-                        {{ frm.comentario }}
-                        {% for error in frm.comentario.errors %}
-
-                </div>
-                <div>
-                    {{ error }}
-                </div>
-                {% endfor %}
-                </p>
             </div>
-            {% for msg in get_flashed_messages() %}
             <div>
+                {{ error }}
+            </div>
+            {% endfor %}
+            </p>
+            <div class="comentario">
+                <p>
+                    {{ frm.comentario.label }}
+                    {{ frm.comentario }}
+                    {% for error in frm.comentario.errors %}
+            </div>
+
+            <div>
+                {{ error }}
+            </div>
+            {% endfor %}
+            </p>
+
+            {% for msg in get_flashed_messages() %}
+            <div class="flash">
                 {{ msg }}
             </div>
             {% endfor %}

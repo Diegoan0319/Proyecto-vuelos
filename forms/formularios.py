@@ -15,6 +15,7 @@ class Registro(FlaskForm):
     password = PasswordField("Password")
     perfil = SelectField("Perfil", coerce=int, choices=[("0","-- Elija opción -- "),("1","piloto"),("2","usuario"),("3","administrador")], validators=[DataRequired(message="Debe escoger una opción")])
     registrar = SubmitField("Registrar")
+    check = BooleanField('Acepto términos y condiciones', validators=[DataRequired()])
 
 class NewRegistro(FlaskForm):
     username = StringField("Usuario")
@@ -56,6 +57,5 @@ class Comentarios(FlaskForm):
     cod_vuelo = StringField("Codigo vuelo")
     comentario = TextAreaField("Comentario")
     enviar = SubmitField("Enviar") 
-    rol = SelectField("Rol", coerce=int, choices=[("0","-- Elija opción -- "),("1","Piloto"),("2","Usuario")], validators=[DataRequired(message="Debe escoger una opción")])
-    check = BooleanField('Acepto términos y condiciones', validators=[DataRequired()])
+    
  

@@ -59,16 +59,25 @@
         position: absolute;
     }
 
-    .volver {
+    .info {
+        font-size: 15px;
+        left: 45px;
         position: absolute;
-        top: 480px;
-        color: white;
+        top: 15px;
     }
 </style>
 
 <body>
     <img class="logo" src="../static/img/group-2@2x.svg">
     <h1>Comentarios generales</h1>
+    <div class="info">
+        Bienvenido, {% if session.usuario %} {{ session.usuario }} {% endif %}
+        <div>Nombre del Usuario: {% if session.nombre %} {{ session.nombre }} {% endif %}</div>
+        <div>ID del usuario: {% if session.iden %} {{ session.iden }} {% endif %}</div>
+        <div>Rol: {% if session.perfil == 1 %} Piloto {% elif session.perfil == 3 %} Administrador {% elif
+            session.perfil ==
+            2 %} Usuario {% endif %}</div>
+    </div>
     <table class="tabla">
         <thead>
             <td>ID</td>
@@ -86,10 +95,6 @@
 
         {% endfor %}
     </table>
-    <br><br>
-
-    <a class="volver" href="/piloto/dashboard">Volver</a>
-    
 </body>
 
 </html>
