@@ -188,11 +188,17 @@ Sistema de Vuelos - Registro de usuarios
     </p>
     <p class="text-2">
         {{ frm.check.label }} {{ frm.check }} {% for error in frm.check.errors %}
-            <div>
-            {{ error }}
-            </div>
-        {% endfor %}
+    <div>
+        {{ error }}
+    </div>
+    {% endfor %}
     </p>
+
+    {% for msg in get_flashed_messages() %}
+    <div>
+        {{ msg }}
+    </div>
+    {% endfor %}
 
     {{ frm.registrar }}
 </form>

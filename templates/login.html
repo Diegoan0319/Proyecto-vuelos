@@ -67,6 +67,12 @@ Sistema de vuelos - Login
         background: #0DFFF0;
         border-radius: 20px;
     }
+
+    .flash {
+        position: relative;
+        top: 110px;
+        left: 40px;
+    }
 </style>
 
 <img class="logo" src="../static/img/group-2@2x.svg">
@@ -96,9 +102,15 @@ Sistema de vuelos - Login
         </div>
         {% endfor %}
         </p>
+
+        {% for msg in get_flashed_messages() %}
+        <div class="flash">
+            {{ msg }}
+        </div>
+        {% endfor %}
         {{ frm.enviar }}
     </form>
 </div>
 <a class="text-3" href="{{ url_for('new_user') }}"><span class="span3">¿No tiene un usuario? </span><span
-    class="span4">Crear cuenta</span></a>
+        class="span4">Crear cuenta</span></a>
 {% endblock %}

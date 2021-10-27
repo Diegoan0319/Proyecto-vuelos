@@ -46,7 +46,7 @@ def login():
                 elif session["perfil"] == 3:
                     return redirect("/administrador/dashboard")
             else:
-                return f"Usuario/Password errados"
+                flash("Usuario/Password errados")
 
     return render_template("login.html", frm = frm)
 
