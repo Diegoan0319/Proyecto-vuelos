@@ -268,16 +268,7 @@ Consultar vuelos
     {% endfor %}
     </p>
 
-    <p>
-      {{ frm2.nombre.label }}
-      {{ frm2.nombre }}
-      {% for error in frm2.nombre.errors %}
-    <div>
-      {{ error }}
-    </div>
-    {% endfor %}
-    </p>
-    {% for msg in get_flashed_messages() %}
+       {% for msg in get_flashed_messages() %}
     <div>
       {{ msg }}
     </div>

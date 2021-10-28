@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Registros</title>
+    <title>Comentarios Vuelos</title>
 </head>
 <style>
     body {
@@ -59,48 +59,42 @@
         position: absolute;
     }
 
-    .volver {
-        position: fixed;
-        top: 770px;
-        color: white;
-    }
-
-    .delete {
-        position: fixed;
-        top: 770px;
-        left: 580px;
-        color: white;
+    .info {
+        font-size: 15px;
+        left: 45px;
+        position: absolute;
+        top: 15px;
     }
 </style>
 
 <body>
     <img class="logo" src="../static/img/group-2@2x.svg">
-    <h1>Informacion de los registros</h1>
+    <h1>Comentarios generales</h1>
+    <div class="info">
+        Bienvenido, {% if session.usuario %} {{ session.usuario }} {% endif %}
+        <div>Nombre del Usuario: {% if session.nombre %} {{ session.nombre }} {% endif %}</div>
+        <div>ID del usuario: {% if session.iden %} {{ session.iden }} {% endif %}</div>
+        <div>Rol: {% if session.perfil == 1 %} Piloto {% elif session.perfil == 3 %} Administrador {% elif
+            session.perfil ==
+            2 %} Usuario {% endif %}</div>
+    </div>
     <table class="tabla">
         <thead>
             <td>ID</td>
-            <td>Nombre</td>
-            <td>Username</td>
-            <td>Correo</td>
-            <td>Perfil</td>
+            <td>Codigo</td>
+            <td>Comentario</td>
         </thead>
 
         {% for row in rows %}
 
         <tr>
-            <td>{{row["id"]}}</td>
-            <td>{{row["nombre"]}}</td>
-            <td>{{row["username"]}}</td>
-            <td>{{row["correo"]}}</td>
-            <td>{{row["perfil"]}}</td>
+            <td>{{row["id_usuario"]}}</td>
+            <td>{{row["cod_vuelo"]}}</td>
+            <td>{{row["comentario"]}}</td>
         </tr>
 
         {% endfor %}
     </table>
-
-    <a class="volver" href="/administrador/dashboard">Volver</a>
-    <a class="delete" href="/delete">Borrar registro</a>
-
 </body>
 
 </html>

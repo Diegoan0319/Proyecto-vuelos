@@ -24,7 +24,7 @@ def login():
         pass_enc = enc.hexdigest()
 
         #Conectar a la BD
-        with sqlite3.connect("vuelos.db") as con:
+        with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
             # Crea cursos para manipular la BD
             con.row_factory = sqlite3.Row
             cursor = con.cursor()
@@ -68,19 +68,19 @@ def registrar(): #Endpoint
             pass_enc = enc.hexdigest()
 
             #Conectar a la BD
-            with sqlite3.connect("vuelos.db") as con:
+            with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
                 # Crea cursos para manipular la BD
                 cursor = con.cursor()
                 #Prepara la sentencia SQL a ejecutar
                 cursor.execute("INSERT INTO usuario (nombre, username, correo, password, perfil) VALUES (?,?,?,?,?)", [nombre, username, correo, pass_enc, perfil])
                 #Ejecuta la sentencia SQL
                 con.commit()
-                return "Guardado con éxito"
+                flash("Registro guardado con éxito")
 
         return render_template("registro.html", frm= frm) #Respuesta
     else:
         return "Acesso no permitido"
-        
+
 @app.route("/administrador/dashboard")
 def admin_dashboard():
     if ("usuario" in session and session["perfil"]==3):
@@ -101,22 +101,22 @@ def user_dashboard():
 def vuelos_save():
     if "usuario" in session:
         frm = Vuelos()
-        codigo = frm.codigo.data 
-        avion = frm.avion.data 
+        codigo = frm.codigo.data
+        avion = frm.avion.data
         piloto = frm.piloto.data
         capacidad = frm.capacidad.data
         estado = frm.estado.data
         origen = frm.origen.data
         destino = frm.destino.data
         id_piloto_fk = frm.id_piloto_fk.data
-        with sqlite3.connect("vuelos.db") as con:
+        with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
             cur = con.cursor()
             cur.execute("INSERT INTO Vuelos (codigo, avion, piloto, capacidad, estado, origen, destino, id_piloto_fk) VALUES (?,?,?,?,?,?,?,?)",[codigo, avion, piloto, capacidad, estado, origen, destino, id_piloto_fk])
             con.commit()
             flash("Guardado con éxito")
     else:
         return redirect("/")
-    
+
     return render_template("admin_vuelos.html",frm= frm)
 
 @app.route("/vuelos/get", methods=["POST"])
@@ -125,7 +125,7 @@ def vuelos_get():
         frm = Vuelos()
         codigo = frm.codigo.data
         if len(codigo)>0:
-            with sqlite3.connect("vuelos.db") as con:
+            with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
                 # Convierte la respuesta de la consulta a diccionario
                 con.row_factory = sqlite3.Row
                 cur = con.cursor()
@@ -160,7 +160,7 @@ def vuelos_get():
 def vuelos_update():
     if "usuario" in session:
         frm = Vuelos()
-        codigo = frm.codigo.data 
+        codigo = frm.codigo.data
         avion = frm.avion.data
         piloto = frm.piloto.data
         capacidad = frm.capacidad.data
@@ -178,7 +178,7 @@ def vuelos_update():
                                 if len(origen):
                                     if len(destino):
                                         if len(id_piloto_fk):
-                                            with sqlite3.connect("vuelos.db") as con:
+                                            with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
                                                 cur = con.cursor()
                                                 cur.execute("UPDATE Vuelos SET avion=?, piloto=?, capacidad=?, estado=?, origen=?, destino=?, id_piloto_fk=? WHERE codigo=?",[avion,piloto,capacidad,estado,origen,destino,id_piloto_fk,codigo])
                                                 con.commit()
@@ -215,11 +215,11 @@ def vuelos_delete():
         frm = Vuelos()
         codigo = frm.codigo.data
         if len(codigo)>0:
-            with sqlite3.connect("vuelos.db") as con:
+            with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
                 cur = con.cursor()
                 cur.execute("DELETE FROM Vuelos WHERE codigo = ?",[codigo])
                 con.commit()
-                
+
                 flash("Vuelo Eliminado!")
         else:
             flash("Debe digitar el Código del vuelo")
@@ -228,41 +228,41 @@ def vuelos_delete():
     else:
         return redirect("/")
 
-@app.route("/ver-registros") 
-def view():  
-    con = sqlite3.connect("vuelos.db")  
-    con.row_factory = sqlite3.Row  
-    cur = con.cursor()  
-    cur.execute("select * from usuario")  
-    rows = cur.fetchall()  
-    return render_template("view.html",rows = rows)  
+@app.route("/ver-registros")
+def view():
+    con = sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from usuario")
+    rows = cur.fetchall()
+    return render_template("view.html",rows = rows)
 
 @app.route("/ver-vuelos", methods=["GET"])
 def view_vuelos():
-    con = sqlite3.connect("vuelos.db")  
-    con.row_factory = sqlite3.Row  
-    cur = con.cursor()  
-    cur.execute("select * from vuelos")  
-    rows = cur.fetchall()   
+    con = sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db")
+    con.row_factory = sqlite3.Row
+    cur = con.cursor()
+    cur.execute("select * from vuelos")
+    rows = cur.fetchall()
     return render_template("vuelos-listado.html",rows=rows)
 
-@app.route("/delete")  
-def delete():  
-    return render_template("delete.html")  
- 
-@app.route("/deleterecord",methods = ["POST"])  
-def deleterecord():  
-    id = request.form["id"]  
-    with sqlite3.connect("vuelos.db") as con:  
-        try:  
-            cur = con.cursor()  
-            cur.execute("delete from usuario where id = ?",id)  
-            msg = "Registro correctamente eliminado" 
-        except:  
-            msg = "No se puede eliminar" 
-        finally:  
+@app.route("/delete")
+def delete():
+    return render_template("delete.html")
+
+@app.route("/deleterecord",methods = ["POST"])
+def deleterecord():
+    id = request.form["id"]
+    with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
+        try:
+            cur = con.cursor()
+            cur.execute("delete from usuario where id = ?",id)
+            msg = "Registro correctamente eliminado"
+        except:
+            msg = "No se puede eliminar"
+        finally:
             return render_template("deleterecord.html",msg = msg)
-   
+
 @app.route("/piloto/dashboard", methods=["GET"])
 def piloto_dashboard():
     if ("usuario" in session and session["perfil"]==1):
@@ -275,14 +275,14 @@ def piloto_dashboard():
 def vuelos_list():
     if "usuario" in session and session["perfil"] == 1:
         iden = session["iden"]
-        with sqlite3.connect("vuelos.db") as con:
+        with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
             # Convierte la respuesta de la consulta a diccionario
             con.row_factory = sqlite3.Row
             cur = con.cursor()
             #cur.execute("SELECT * FROM vuelos")
             cur.execute("SELECT codigo, avion, piloto,capacidad, origen, destino, estado, id_piloto_fk from vuelos WHERE id_piloto_fk =?", [iden])
             rows = cur.fetchall()
-                
+
         return render_template("vuelos-listado.html",rows=rows)
     else:
         return redirect("/")
@@ -293,7 +293,7 @@ def buscar_vuelo():
         frm2 = User()
         codigo = frm2.codigo.data
         if len(codigo)>0:
-            with sqlite3.connect("vuelos.db") as con:
+            with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
                 # Convierte la respuesta de la consulta a diccionario
                 con.row_factory = sqlite3.Row
                 cur = con.cursor()
@@ -311,7 +311,7 @@ def buscar_vuelo():
                     frm2.id_piloto_fk.data = row["id_piloto_fk"]
 
                     frm2.nombre.data = row["nombre"]
-                else:  
+                else:
                     frm2.codigo.data = ""
                     frm2.avion.data = ""
                     frm2.piloto.data = ""
@@ -334,7 +334,7 @@ def buscar_vuelo():
 def vuelos_reserva():
     if "usuario" in session:
         frm2 = User()
-        codigo = frm2.codigo.data 
+        codigo = frm2.codigo.data
         avion = frm2.avion.data
         piloto = frm2.piloto.data
         capacidad = frm2.capacidad.data
@@ -352,11 +352,11 @@ def vuelos_reserva():
                                 if len(origen):
                                     if len(destino):
                                         if len(id_piloto_fk):
-                                            with sqlite3.connect("vuelos.db") as con:
+                                            with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
                                                 cur = con.cursor()
                                                 cur.execute("UPDATE Vuelos SET capacidad=capacidad-1 where codigo = ?",[codigo])
                                                 con.commit()
-                                                flash("Vuelo reservado")   
+                                                flash("Vuelo reservado")
                                         else:
                                             flash("Debe digitar el codigo del piloto")
                                     else:
@@ -393,20 +393,20 @@ def new_user():
             password = frm.password.data
             perfil = frm.perfil.data
 
-            
+
             # Cifra la contraseña
             enc = hashlib.sha256(password.encode())
             pass_enc = enc.hexdigest()
 
             #Conectar a la BD
-            with sqlite3.connect("vuelos.db") as con:
+            with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
                 # Crea cursos para manipular la BD
                 cursor = con.cursor()
                 #Prepara la sentencia SQL a ejecutar
                 cursor.execute("INSERT INTO usuario (nombre, username, correo, password, perfil) VALUES (?,?,?,?,?)", [nombre, username, correo, pass_enc, perfil])
                 #Ejecuta la sentencia SQL
                 con.commit()
-                return "Guardado con éxito"
+                flash("Registro guardado con éxito")
 
         return render_template("new_user.html", frm= frm) #Respuesta
 
@@ -415,10 +415,10 @@ def comentario():
     frm = Comentarios()
     if frm.validate_on_submit():
         id_usuario = frm.id_usuario.data
-        cod_vuelo = frm.cod_vuelo.data 
+        cod_vuelo = frm.cod_vuelo.data
         comentario = frm.comentario.data
-        
-        with sqlite3.connect("vuelos.db") as con:
+
+        with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
             cur = con.cursor()
             cur.execute("INSERT INTO comentarios (id_usuario,cod_vuelo,comentario) VALUES (?,?,?)",[id_usuario,cod_vuelo,comentario])
             con.commit()
@@ -429,16 +429,25 @@ def comentario():
 def ver_com():
     if "usuario" in session and session["perfil"]== 1:
         iden = session["iden"]
-        with sqlite3.connect("vuelos.db") as con: 
-            con.row_factory = sqlite3.Row  
-            cur = con.cursor()  
-            cur.execute("SELECT c.cod_vuelo, c.id_usuario, c.comentario FROM comentarios c INNER JOIN vuelos v WHERE c.cod_vuelo = v.codigo AND v.id_piloto_fk = ?",[iden]) 
-            rows = cur.fetchall()  
-            return render_template("ver-comentarios.html",rows = rows) 
-    
+        with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
+            con.row_factory = sqlite3.Row
+            cur = con.cursor()
+            cur.execute("SELECT c.cod_vuelo, c.id_usuario, c.comentario FROM comentarios c INNER JOIN vuelos v WHERE c.cod_vuelo = v.codigo AND v.id_piloto_fk = ?",[iden])
+            rows = cur.fetchall()
+            return render_template("ver-comentarios.html",rows = rows)
+
+@app.route("/ver-comentarios-vuelos", methods=["GET"])
+def ver_com_vuelos():
+    if "usuario" in session and session["perfil"]== 3:
+        with sqlite3.connect("/home/leovassallo/SistemaVuelos/vuelos.db") as con:
+            con.row_factory = sqlite3.Row
+            cur = con.cursor()
+            cur.execute("SELECT cod_vuelo, id_usuario, comentario FROM comentarios")
+            rows = cur.fetchall()
+            return render_template("ver-comentarios-vuelos.html",rows = rows)
+
+
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
-
-app.run(debug=True)
